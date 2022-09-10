@@ -19,9 +19,6 @@ public class ApplicationRequest {
     @Column(name="userName")
     private String userName;
 
-    @Column(name="courseName")
-    private String courseName;
-
     @Column(name="commentary")
     private String commentary;
 
@@ -30,4 +27,7 @@ public class ApplicationRequest {
 
     @Column(name="handled")
     private boolean handled;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Courses course;
 }

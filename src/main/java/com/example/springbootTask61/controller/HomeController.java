@@ -1,5 +1,9 @@
-package com.example.springbootTask61;
+package com.example.springbootTask61.controller;
 
+import com.example.springbootTask61.ApplicationRequest;
+import com.example.springbootTask61.Courses;
+import com.example.springbootTask61.CoursesRepository;
+import com.example.springbootTask61.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +19,9 @@ public class HomeController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private CoursesRepository coursesRepository;
+
     @GetMapping("/")
     public String index(Model model) {
         List<ApplicationRequest> appRequests = requestRepository.findAll();
@@ -23,26 +30,28 @@ public class HomeController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(Model model) {
+        List<Courses> courses = coursesRepository.findAll();
+        model.addAttribute("courses", courses);
         return "add";
     }
 
     @PostMapping("/add")
     public String add(@RequestParam(name = "name") String name,
-                      @RequestParam(name = "course") String course,
+                      @RequestParam(name = "course_id") Long course_id,
                       @RequestParam(name = "number") String number,
                       @RequestParam(name = "commentary") String commentary) {
         ApplicationRequest appRequest = new ApplicationRequest();
         appRequest.setUserName(name);
-        appRequest.setCourseName(course);
         appRequest.setPhone(number);
         appRequest.setCommentary(commentary);
         appRequest.setHandled(false);
 
+        Courses course = coursesRepository.findById(course_id).orElse(null);
+        appRequest.setCourse(course);
         requestRepository.save(appRequest);
 
         return "redirect:/";
-
     }
 
     @GetMapping("/newrequests")
@@ -63,13 +72,12 @@ public class HomeController {
     public String details(@PathVariable(name = "id") Long id,
                           Model model) {
         ApplicationRequest appRequest = requestRepository.findById(id).orElse(null);
-
+        List<Courses> courses = coursesRepository.findAll();
         if (appRequest != null) {
             model.addAttribute("appRequest", appRequest);
+            model.addAttribute("courses", courses);
         }
-
         return "details";
-
     }
 
     @GetMapping("/delete/{id}")
@@ -78,7 +86,6 @@ public class HomeController {
         requestRepository.deleteById(id);
 
         return "redirect:/";
-
     }
 
     @GetMapping("/tohandled/{id}")
@@ -89,7 +96,5 @@ public class HomeController {
             requestRepository.save(appRequest);
         }
             return "redirect:/details/" + id;
-
-
     }
 }

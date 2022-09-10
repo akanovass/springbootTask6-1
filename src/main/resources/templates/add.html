@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/main.html">
 
-<div layout:fragment="frag">
-    <div class="row mt-3">
-        <div class="col-7 mx-auto">
-            <form th:action="@{'/add'}" method="post">
-            <label>ФИО:</label>
-            <input type="text" name="name" placeholder="ФИО:" class="form-control mt-2 mb-2">
-            <label>Курс:</label>
-            <select name="course" class="form-control mt-2 mb-2">
-                <option>Выберите курс</option>
-                <option>Java EE</option>
-                <option>Java SE</option>
-                <option>Python Start</option>
-                <option>UX/UI Design</option>
-                <option>PHP</option>
-            </select>
-            <label>Телефон:</label>
-            <input type="text" name = "number" placeholder="+7(7__)_______" class="form-control mt-2 mb-2">
-            <label>Комментарии:</label>
-            <textarea name="commentary" placeholder="Комментарии" class="form-control mt-2 mb-2"></textarea>
-            <button class="btn btn-success">Добавить заявку</button>
-            </form>
+    <div layout:fragment="frag">
+        <div class="row mt-3">
+            <div class="col-7 mx-auto">
+                <form th:action="@{'/add'}" method="post">
+                <label>ФИО:</label>
+                <input type="text" name="name" placeholder="ФИО:" class="form-control mt-2 mb-2">
+                <label>Курс:</label>
+                <select name="course_id" class="form-control mt-2 mb-2">
+                    <option>Выберите курс</option>
+                    <option th:each="c:${courses}" th:text="${c.name+' - '+c.price+' USD'}" th:value="${c.id}"></option>
+                </select>
+                <label>Телефон:</label>
+                <input type="text" name = "number" placeholder="+7(7__)_______" class="form-control mt-2 mb-2">
+                <label>Комментарии:</label>
+                <textarea name="commentary" placeholder="Комментарии" class="form-control mt-2 mb-2"></textarea>
+                <button class="btn btn-success">Добавить заявку</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </html>

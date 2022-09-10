@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/main.html">
 
-<div layout:fragment="frag">
-    <div class="row mt-3">
-        <div class="col-7 mx-auto">
-                <h5 th:if="${!appRequest.handled}" style="color:red;text-align: center;">*** Новая необработанная заявка ***</h5>
-                <h5 th:if="${appRequest.handled}" style="color:green;text-align: center;">Обработанная заявка</h5>
-                <label>ФИО:</label>
-                <input type="text" name="name" th:value="${appRequest.userName}" class="form-control mt-2 mb-2">
-                <label>Курс:</label>
-                <select name="course" class="form-control mt-2 mb-2">
-                    <option>Выберите курс</option>
-                    <option th:selected="${appRequest.courseName.equals('Java EE')}">Java EE</option>
-                    <option th:selected="${appRequest.courseName.equals('Java SE')}">Java SE</option>
-                    <option th:selected="${appRequest.courseName.equals('Python Start')}">Python Start</option>
-                    <option th:selected="${appRequest.courseName.equals('UX/UI Design')}">UX/UI Design</option>
-                    <option th:selected="${appRequest.courseName.equals('PHP')}">PHP</option>
-                </select>
-                <label>Телефон:</label>
-                <input type="text" name = "number" th:value="${appRequest.phone}" class="form-control mt-2 mb-2">
-                <label>Комментарии:</label>
-                <textarea name="commentary" th:text="${appRequest.commentary}" class="form-control mt-2 mb-2"></textarea>
+    <div layout:fragment="frag">
+        <div class="row mt-3">
+            <div class="col-7 mx-auto">
+                    <h5 th:if="${!appRequest.handled}" style="color:red;text-align: center;">*** Новая необработанная заявка ***</h5>
+                    <h5 th:if="${appRequest.handled}" style="color:green;text-align: center;">Обработанная заявка</h5>
+                    <label>ФИО:</label>
+                    <input type="text" name="name" th:value="${appRequest.userName}" class="form-control mt-2 mb-2">
+                    <label>Курс:</label>
+                    <select name="course_id" class="form-control mt-2 mb-2">
+                        <option th:each="c:${courses}" th:text="${c.name + ' - ' + c.price + ' USD'}"  th:selected="${appRequest.course.id.equals(c.id)}"></option>
+                    </select>
+                    <label>Телефон:</label>
+                    <input type="text" name = "number" th:value="${appRequest.phone}" class="form-control mt-2 mb-2">
+                    <label>Комментарии:</label>
+                    <textarea name="commentary" th:text="${appRequest.commentary}" class="form-control mt-2 mb-2"></textarea>
 
-                <a th:if="${!appRequest.handled}" th:href="@{'/tohandled/'+${appRequest.id}}"  class="btn btn-success">Обработать заявку</a>
-                <a th:href="@{'/delete/'+${appRequest.id}}"  class="btn btn-danger">Удалить заявку</a>
+                    <a th:if="${!appRequest.handled}" th:href="@{'/tohandled/'+${appRequest.id}}"  class="btn btn-success">Обработать заявку</a>
+                    <a th:href="@{'/delete/'+${appRequest.id}}"  class="btn btn-danger">Удалить заявку</a>
+            </div>
         </div>
     </div>
-</div>
 </html>
