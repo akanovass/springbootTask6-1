@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="layout/main.html">
+
+<div layout:fragment="frag">
+    <div class="container">
+        <div style="display: flex; flex-wrap:wrap; justify-content: space-between;">
+            <div class="card" th:each="appReq:${appRequests}" style="width:49%; height: 180px; padding: 15px; margin-bottom: 20px;">
+                <h5><label th:if="${!appReq.handled}" style="color: red;">*(Новая)</label> Заявка от <b th:text="${appReq.userName}"></b></h5>
+                <p style="color: grey;">Курс: <label th:text="${appReq.courseName}"></label></p>
+                <p th:text="${appReq.commentary}"></p>
+                <p><label th:text="'Тел: '+${appReq.phone}" style="font-weight: bold;"></label> &nbsp;&nbsp; <a th:href="@{'/details/'+${appReq.id}}">Подробнее</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
